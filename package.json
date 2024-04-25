@@ -22,7 +22,7 @@
     "decorators"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc -p ./tsconfig.build.json --rootDir lib",
+    "build": "tsc -p ./tsconfig.build.json --rootDir lib",
     "commit": "./node_modules/cz-customizable/standalone.js",
     "test": "jest",
     "test:watch": "jest --watch",

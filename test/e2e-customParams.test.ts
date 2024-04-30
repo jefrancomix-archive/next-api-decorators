@@ -1,16 +1,16 @@
-import 'reflect-metadata';
-import request from 'supertest';
-import { createParamDecorator, createHandler, Get } from '../lib';
-import { setupServer } from './setupServer';
+import 'reflect-metadata'
+import request from 'supertest'
+import { createParamDecorator, createHandler, Get } from '../lib'
+import { setupServer } from './setupServer'
 
-const HttpVersion = createParamDecorator(req => req.httpVersion);
+const HttpVersion = createParamDecorator(req => req.httpVersion)
 const User = createParamDecorator(async () => {
   return new Promise(resolve =>
     setTimeout(() => {
-      resolve({ fullName: 'Hello World' });
+      resolve({ fullName: 'Hello World' })
     }, 250)
-  );
-});
+  )
+})
 
 class TestHandler {
   @Get()
@@ -18,21 +18,21 @@ class TestHandler {
     return {
       httpVersion,
       user
-    };
+    }
   }
 }
 
 describe('E2E - Custom parameter decorators', () => {
-  let server: ReturnType<typeof setupServer>;
+  let server: ReturnType<typeof setupServer>
   beforeAll(() => {
-    server = setupServer(createHandler(TestHandler));
-  });
+    server = setupServer(createHandler(TestHandler))
+  })
 
   afterAll(() => {
     if ('close' in server && typeof server.close === 'function') {
-      server.close();
+      server.close()
     }
-  });
+  })
 
   it('Should execute custom parameter decorators.', () =>
     request(server)
@@ -43,5 +43,5 @@ describe('E2E - Custom parameter decorators', () => {
           httpVersion: '1.1',
           user: { fullName: 'Hello World' }
         })
-      ));
-});
+      ))
+})

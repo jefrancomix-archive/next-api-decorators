@@ -1,4 +1,4 @@
-import { ParameterPipe } from '../ParameterPipe';
+import { ParameterPipe } from '../ParameterPipe'
 
 /**
  * Assigns a default value to the parameter when its value is `null` or `undefined`.
@@ -9,9 +9,9 @@ import { ParameterPipe } from '../ParameterPipe';
 export function DefaultValuePipe<T>(defaultValue: T): ParameterPipe<T> {
   return (value: any) => {
     if (value == null || (typeof value === 'number' && Number.isNaN(value))) {
-      return defaultValue;
+      return defaultValue
     }
 
-    return value;
-  };
+    return value
+  }
 }

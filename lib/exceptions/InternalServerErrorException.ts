@@ -1,7 +1,7 @@
-import { HttpException } from './HttpException';
+import { HttpException } from './HttpException'
 
 export class InternalServerErrorException extends HttpException {
-  public name = 'InternalServerErrorException';
+  public name = 'InternalServerErrorException'
 
   /**
    * Instantiates an `InternalServerErrorException` Exception with status code 500.
@@ -13,6 +13,6 @@ export class InternalServerErrorException extends HttpException {
    * `throw new InternalServerErrorException()`
    */
   public constructor(message: string = 'Internal Server Error') {
-    super(500, message);
+    super(500, message)
   }
 }

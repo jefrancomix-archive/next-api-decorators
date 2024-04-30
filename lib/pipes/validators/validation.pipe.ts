@@ -1,12 +1,12 @@
-import type { ClassTransformOptions } from 'class-transformer';
-import type { ValidatorOptions } from 'class-validator';
-import { loadPackage } from '../../internals/loadPackage';
-import { validateObject } from '../../internals/validateObject';
-import type { ParameterPipe, PipeMetadata } from '../ParameterPipe';
+import type { ClassTransformOptions } from 'class-transformer'
+import type { ValidatorOptions } from 'class-validator'
+import { loadPackage } from '../../internals/loadPackage'
+import { validateObject } from '../../internals/validateObject'
+import type { ParameterPipe, PipeMetadata } from '../ParameterPipe'
 
 export interface ValidationPipeOptions extends ValidatorOptions {
   /** Options for the `class-transformer` package. */
-  transformOptions?: ClassTransformOptions;
+  transformOptions?: ClassTransformOptions
 }
 
 /**
@@ -23,14 +23,14 @@ export function ValidationPipe(options?: ValidationPipeOptions): ParameterPipe<a
         context: 'ValidationPipe',
         docsUrl: 'https://next-api-decorators.vercel.app/docs/validation'
       })
-    );
+    )
   }
 
   return (value: any, metadata?: PipeMetadata) => {
     if (!metadata?.metaType) {
-      return value;
+      return value
     }
 
-    return validateObject(metadata?.metaType, value, options);
-  };
+    return validateObject(metadata?.metaType, value, options)
+  }
 }

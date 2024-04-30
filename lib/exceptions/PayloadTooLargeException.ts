@@ -1,7 +1,7 @@
-import { HttpException } from './HttpException';
+import { HttpException } from './HttpException'
 
 export class PayloadTooLargeException extends HttpException {
-  public name = 'PayloadTooLargeException';
+  public name = 'PayloadTooLargeException'
 
   /**
    * Instantiates a `PayloadTooLargeException` Exception with status code 413.
@@ -13,6 +13,6 @@ export class PayloadTooLargeException extends HttpException {
    * `throw new PayloadTooLargeException()`
    */
   public constructor(message: string = 'Payload Too Large', errors?: string[]) {
-    super(413, message, errors);
+    super(413, message, errors)
   }
 }

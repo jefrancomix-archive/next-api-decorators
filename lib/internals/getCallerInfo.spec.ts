@@ -1,14 +1,14 @@
-import { getCallerInfo } from './getCallerInfo';
+import { getCallerInfo } from './getCallerInfo'
 
 describe('getCallerInfo', () => {
-  const PLATFORM = process.platform;
+  const PLATFORM = process.platform
 
   afterAll(() => {
-    Object.defineProperty(process, 'platform', { value: PLATFORM });
-  });
+    Object.defineProperty(process, 'platform', { value: PLATFORM })
+  })
 
   function mockError(path: string, nextJsVersion?: number, providedStack?: string) {
-    const spyError = jest.spyOn(global, 'Error');
+    const spyError = jest.spyOn(global, 'Error')
 
     spyError.mockImplementation(() => {
       let stack =
@@ -35,81 +35,81 @@ describe('getCallerInfo', () => {
   at /unix-example-path/.next/server/${path}.js:43:28
   at Object.<anonymous> (/unix-example-path/.next/server/${path}.js:46:3)
   at Module._compile (node:internal/modules/cjs/loader:1101:14)
-  at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)`);
+  at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)`)
 
       if (!providedStack && process.platform === 'win32') {
-        stack = stack.replace(/\//g, '\\').replace(/\\unix-/g, 'C:\\win-');
+        stack = stack.replace(/\//g, '\\').replace(/\\unix-/g, 'C:\\win-')
       }
 
       return {
         name: 'Error',
         message: 'An error occurred.',
         stack
-      };
-    });
+      }
+    })
 
-    return spyError;
+    return spyError
   }
 
   it('Unix file system for NextJS 12.0.8', () => {
-    const spyError = mockError('pages/api/tags/[id]/[[...params]]', 12_0_8);
-    Object.defineProperty(process, 'platform', { value: 'darwin' });
+    const spyError = mockError('pages/api/tags/[id]/[[...params]]', 12_0_8)
+    Object.defineProperty(process, 'platform', { value: 'darwin' })
 
-    const dir = getCallerInfo();
-    expect(dir).toStrictEqual(['/pages/api/tags/[id]', '[[...params]].js']);
+    const dir = getCallerInfo()
+    expect(dir).toStrictEqual(['/pages/api/tags/[id]', '[[...params]].js'])
 
-    spyError.mockRestore();
-  });
+    spyError.mockRestore()
+  })
 
   it('Unix file system for NextJS 12.0.9', () => {
-    const spyError = mockError('pages/api/tags/[id]/[[...params]]', 12_0_9);
-    Object.defineProperty(process, 'platform', { value: 'darwin' });
+    const spyError = mockError('pages/api/tags/[id]/[[...params]]', 12_0_9)
+    Object.defineProperty(process, 'platform', { value: 'darwin' })
 
-    const dir = getCallerInfo();
-    expect(dir).toStrictEqual(['/pages/api/tags/[id]', '[[...params]].js']);
+    const dir = getCallerInfo()
+    expect(dir).toStrictEqual(['/pages/api/tags/[id]', '[[...params]].js'])
 
-    spyError.mockRestore();
-  });
+    spyError.mockRestore()
+  })
 
   it('Win32 file system for NextJS 12.0.8', () => {
-    const spyError = mockError('pages\\api\\tags\\[id]\\[[...params]]', 12_0_8);
-    Object.defineProperty(process, 'platform', { value: 'win32' });
+    const spyError = mockError('pages\\api\\tags\\[id]\\[[...params]]', 12_0_8)
+    Object.defineProperty(process, 'platform', { value: 'win32' })
 
-    const dir = getCallerInfo();
-    expect(dir).toStrictEqual(['/pages/api/tags/[id]', '[[...params]].js']);
+    const dir = getCallerInfo()
+    expect(dir).toStrictEqual(['/pages/api/tags/[id]', '[[...params]].js'])
 
-    spyError.mockRestore();
-  });
+    spyError.mockRestore()
+  })
 
   it('Win32 file system for NextJS 12.0.9', () => {
-    const spyError = mockError('pages\\api\\tags\\[id]\\[[...params]]', 12_0_9);
-    Object.defineProperty(process, 'platform', { value: 'win32' });
+    const spyError = mockError('pages\\api\\tags\\[id]\\[[...params]]', 12_0_9)
+    Object.defineProperty(process, 'platform', { value: 'win32' })
 
-    const dir = getCallerInfo();
-    expect(dir).toStrictEqual(['/pages/api/tags/[id]', '[[...params]].js']);
+    const dir = getCallerInfo()
+    expect(dir).toStrictEqual(['/pages/api/tags/[id]', '[[...params]].js'])
 
-    spyError.mockRestore();
-  });
+    spyError.mockRestore()
+  })
 
   it('Should get the last paranthesis of the line for NextJS 12.0.8.', () => {
-    const spyError = mockError('pages/api/[[...user]]', 12_0_8);
-    Object.defineProperty(process, 'platform', { value: 'darwin' });
+    const spyError = mockError('pages/api/[[...user]]', 12_0_8)
+    Object.defineProperty(process, 'platform', { value: 'darwin' })
 
-    const dir = getCallerInfo();
-    expect(dir).toStrictEqual(['/pages/api', '[[...user]].js']);
+    const dir = getCallerInfo()
+    expect(dir).toStrictEqual(['/pages/api', '[[...user]].js'])
 
-    spyError.mockRestore();
-  });
+    spyError.mockRestore()
+  })
 
   it('Should get the last paranthesis of the line for NextJS 12.0.9.', () => {
-    const spyError = mockError('pages/api/[[...user]]', 12_0_9);
-    Object.defineProperty(process, 'platform', { value: 'darwin' });
+    const spyError = mockError('pages/api/[[...user]]', 12_0_9)
+    Object.defineProperty(process, 'platform', { value: 'darwin' })
 
-    const dir = getCallerInfo();
-    expect(dir).toStrictEqual(['/pages/api', '[[...user]].js']);
+    const dir = getCallerInfo()
+    expect(dir).toStrictEqual(['/pages/api', '[[...user]].js'])
 
-    spyError.mockRestore();
-  });
+    spyError.mockRestore()
+  })
 
   test('Issue #355', () => {
     const spyError = mockError(
@@ -126,14 +126,14 @@ describe('getCallerInfo', () => {
         '    at Module._compile (internal/modules/cjs/loader.js:1072:14)\n' +
         '    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1101:10)\n' +
         '    at Module.load (internal/modules/cjs/loader.js:937:32)'
-    );
-    Object.defineProperty(process, 'platform', { value: 'win32' });
+    )
+    Object.defineProperty(process, 'platform', { value: 'win32' })
 
-    const dir = getCallerInfo();
-    expect(dir).toStrictEqual(['/pages/api/users/deep', '[[...params]].js']);
+    const dir = getCallerInfo()
+    expect(dir).toStrictEqual(['/pages/api/users/deep', '[[...params]].js'])
 
-    spyError.mockRestore();
-  });
+    spyError.mockRestore()
+  })
 
   test('Issue #482 - Development error', () => {
     const spyError = mockError(
@@ -143,14 +143,14 @@ describe('getCallerInfo', () => {
         '    at Object.getCallerInfo (/unix-example-path/node_modules/next-api-decorators/dist/internals/getCallerInfo.js:9:22)\n' +
         '    at createHandler (/unix-example-path/node_modules/next-api-decorators/dist/createHandler.js:30:51)\n' +
         '    at eval (webpack-internal:///(api)/./pages/api/deep/nested/route/[[...params]].js:35:132)'
-    );
-    Object.defineProperty(process, 'platform', { value: 'darwin' });
+    )
+    Object.defineProperty(process, 'platform', { value: 'darwin' })
 
-    const dir = getCallerInfo();
-    expect(dir).toStrictEqual(['/pages/api/deep/nested/route', '[[...params]].js']);
+    const dir = getCallerInfo()
+    expect(dir).toStrictEqual(['/pages/api/deep/nested/route', '[[...params]].js'])
 
-    spyError.mockRestore();
-  });
+    spyError.mockRestore()
+  })
 
   test('Issue #482 - Production error', () => {
     const spyError = mockError(
@@ -160,12 +160,12 @@ describe('getCallerInfo', () => {
         '    at Object.getCallerInfo (/unix-example-path/node_modules/next-api-decorators/dist/internals/getCallerInfo.js:9:22)\n' +
         '    at createHandler (/unix-example-path/node_modules/next-api-decorators/dist/createHandler.js:30:51)\n' +
         '    at /unix-example-path/.next/server/pages/api/deep/nested/route/[[...params]].js:58:132'
-    );
-    Object.defineProperty(process, 'platform', { value: 'darwin' });
+    )
+    Object.defineProperty(process, 'platform', { value: 'darwin' })
 
-    const dir = getCallerInfo();
-    expect(dir).toStrictEqual(['/pages/api/deep/nested/route', '[[...params]].js']);
+    const dir = getCallerInfo()
+    expect(dir).toStrictEqual(['/pages/api/deep/nested/route', '[[...params]].js'])
 
-    spyError.mockRestore();
-  });
-});
+    spyError.mockRestore()
+  })
+})

@@ -1,8 +1,8 @@
-import 'reflect-metadata';
-import { Type } from 'class-transformer';
-import { IsBoolean, IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, ValidateNested } from 'class-validator';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import request from 'supertest';
+import 'reflect-metadata'
+import { Type } from 'class-transformer'
+import { IsBoolean, IsDate, IsEnum, IsInt, IsNotEmpty, IsOptional, ValidateNested } from 'class-validator'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import request from 'supertest'
 import {
   createHandler,
   Body,
@@ -24,8 +24,8 @@ import {
   NotFoundException,
   DefaultValuePipe,
   Patch
-} from '../lib';
-import { setupServer } from './setupServer';
+} from '../lib'
+import { setupServer } from './setupServer'
 
 enum CreateSource {
   ONLINE = 'online',
@@ -34,51 +34,51 @@ enum CreateSource {
 
 class Address {
   @IsNotEmpty()
-  public city!: string;
+  public city!: string
 
   @IsNotEmpty()
-  public country!: string;
+  public country!: string
 }
 
 class CreateDto {
   @IsNotEmpty()
-  public firstName!: string;
+  public firstName!: string
 
   @IsNotEmpty()
-  public lastName!: string;
+  public lastName!: string
 
   @IsInt()
-  public birthYear!: number;
+  public birthYear!: number
 
   @IsBoolean()
-  public isActive!: boolean;
+  public isActive!: boolean
 
   @IsDate()
-  public dateOfBirth!: Date;
+  public dateOfBirth!: Date
 
   @IsDate()
   @IsOptional()
-  public createdAt?: Date;
+  public createdAt?: Date
 
   @IsEnum(CreateSource)
   @IsOptional()
-  public source?: CreateSource;
+  public source?: CreateSource
 
   @Type(() => Address)
   @ValidateNested()
   @IsOptional()
-  public addresses?: Address[];
+  public addresses?: Address[]
 }
 
 class QueryDto {
   @IsOptional()
   @IsEnum(CreateSource)
-  public source?: CreateSource;
+  public source?: CreateSource
 }
 
 @SetHeader('X-Api', 'true')
 class TestHandler {
-  private testField = 'test';
+  private testField = 'test'
 
   @Get()
   @SetHeader('X-Method', 'read')
@@ -92,7 +92,7 @@ class TestHandler {
     @Query('limit', DefaultValuePipe(20), ParseNumberPipe) limit: number
   ) {
     if (id !== 'my-id') {
-      throw new NotFoundException('Invalid ID');
+      throw new NotFoundException('Invalid ID')
     }
 
     return {
@@ -105,7 +105,7 @@ class TestHandler {
       isStartAtDateInstance: startAt instanceof Date,
       skip,
       limit
-    };
+    }
   }
 
   @Post()
@@ -116,43 +116,43 @@ class TestHandler {
     @Header('Content-Type') contentType: string,
     @Body(ValidationPipe) body: CreateDto
   ) {
-    return { ...query, contentType, receivedBody: body, test: this.testField, instanceOf: body instanceof CreateDto };
+    return { ...query, contentType, receivedBody: body, test: this.testField, instanceOf: body instanceof CreateDto }
   }
 
   @Put()
   @SetHeader('X-Method', 'update')
   public update(@Req() req: NextApiRequest, @Res() res: NextApiResponse) {
-    const { headers, query, body } = req;
-    const { 'content-type': contentType } = headers;
-    const { id } = query;
+    const { headers, query, body } = req
+    const { 'content-type': contentType } = headers
+    const { id } = query
 
-    res.status(200).json({ contentType, id, receivedBody: body, test: this.testField });
+    res.status(200).json({ contentType, id, receivedBody: body, test: this.testField })
   }
 
   @Delete()
   @SetHeader('X-Method', 'delete')
   public delete(@Req() req: NextApiRequest, @Response() res: NextApiResponse) {
-    const { headers, query, body } = req;
-    const { 'content-type': contentType } = headers;
-    const { id } = query;
+    const { headers, query, body } = req
+    const { 'content-type': contentType } = headers
+    const { id } = query
 
-    return res.status(200).json({ contentType, id, receivedBody: body, test: this.testField });
+    return res.status(200).json({ contentType, id, receivedBody: body, test: this.testField })
   }
 
   @Patch()
   public patch(@Body() body: any) {
-    return body;
+    return body
   }
 }
 
 describe('E2E', () => {
-  let server: ReturnType<typeof setupServer>;
-  beforeAll(() => (server = setupServer(createHandler(TestHandler))));
+  let server: ReturnType<typeof setupServer>
+  beforeAll(() => (server = setupServer(createHandler(TestHandler))))
   afterAll(() => {
     if ('close' in server && typeof server.close === 'function') {
-      server.close();
+      server.close()
     }
-  });
+  })
 
   it('Should successfully `GET` the request with a 200 status code.', () =>
     request(server)
@@ -176,7 +176,7 @@ describe('E2E', () => {
             limit: 20
           }
         })
-      ));
+      ))
 
   it('Should throw a 404 error when an invalid ID is given.', () =>
     request(server)
@@ -189,7 +189,7 @@ describe('E2E', () => {
             message: 'Invalid ID'
           }
         })
-      ));
+      ))
 
   it('Should return a 400 error when a required parameter is missing.', () =>
     request(server)
@@ -202,7 +202,7 @@ describe('E2E', () => {
             message: 'step is a required parameter.'
           }
         })
-      ));
+      ))
 
   it('Should successfully `POST` the request with a 201 status code.', () =>
     request(server)
@@ -233,7 +233,7 @@ describe('E2E', () => {
             }
           }
         })
-      ));
+      ))
 
   it('Should return a 400 error when "addresses[0].country" is not set.', () =>
     request(server)
@@ -253,7 +253,7 @@ describe('E2E', () => {
             errors: expect.arrayContaining([expect.stringContaining('addresses.0.country should not be empty')])
           }
         })
-      ));
+      ))
 
   it('Should return a 400 error when the an invalid enum is given.', () =>
     request(server)
@@ -275,7 +275,7 @@ describe('E2E', () => {
             ])
           }
         })
-      ));
+      ))
 
   it('Should successfully `PUT` the request with a 200 status code.', () =>
     request(server)
@@ -299,7 +299,7 @@ describe('E2E', () => {
             }
           }
         })
-      ));
+      ))
 
   it('Should successfully `DELETE` the request with a 200 status code.', () =>
     request(server)
@@ -323,7 +323,7 @@ describe('E2E', () => {
             }
           }
         })
-      ));
+      ))
 
   it('Should successfully `PATCH` the request with a 200 status code.', () =>
     request(server)
@@ -331,7 +331,7 @@ describe('E2E', () => {
       .set('Content-Type', 'application/json')
       .send({ patching: true })
       .expect(200)
-      .then(res => expect(res).toMatchObject({ headers: { 'x-api': 'true' }, body: { patching: true } })));
+      .then(res => expect(res).toMatchObject({ headers: { 'x-api': 'true' }, body: { patching: true } })))
 
   it('Should return a express style 404 for an undefined HTTP method.', () =>
     request(server)
@@ -343,5 +343,5 @@ describe('E2E', () => {
           statusCode: 404,
           error: 'Not Found'
         })
-      ));
-});
+      ))
+})

@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import type { MetaParameter } from '../decorators';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import type { MetaParameter } from '../decorators'
 
 export function getParameterValue(
   req: NextApiRequest,
@@ -8,20 +8,20 @@ export function getParameterValue(
 ): string | object | undefined {
   switch (location) {
     case 'query':
-      return name ? req.query[name] : req.query;
+      return name ? req.query[name] : req.query
     case 'body':
-      return req.body;
+      return req.body
     case 'header':
-      return name ? req.headers[name.toLowerCase()] : req.headers;
+      return name ? req.headers[name.toLowerCase()] : req.headers
     case 'params':
-      return name ? req.params[name] : req.params;
+      return name ? req.params[name] : req.params
     case 'request':
-      return req;
+      return req
     case 'response':
-      return res;
+      return res
     case 'file':
-      return req.file;
+      return req.file
     case 'files':
-      return req.files;
+      return req.files
   }
 }

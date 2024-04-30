@@ -1,49 +1,49 @@
-import 'reflect-metadata';
-import fs from 'fs';
-import request from 'supertest';
-import { createHandler, Download, DownloadFileResult, Get, Query, SetHeader } from '../lib';
-import { setupServer } from './setupServer';
+import 'reflect-metadata'
+import fs from 'fs'
+import request from 'supertest'
+import { createHandler, Download, DownloadFileResult, Get, Query, SetHeader } from '../lib'
+import { setupServer } from './setupServer'
 
 class TestHandler {
   @Get()
   @Download()
   @SetHeader('Content-Type', 'text/html')
   public downloadFile(@Query('type') type: string): DownloadFileResult | undefined {
-    fs.writeFileSync('./test-stream-2.txt', 'hello stream!');
+    fs.writeFileSync('./test-stream-2.txt', 'hello stream!')
 
     switch (type) {
       case 'stream':
         return {
           filename: 'stream-test.txt',
           contents: fs.createReadStream('./test-stream-2.txt')
-        };
+        }
       case 'buffer':
         return {
           filename: 'buffer-test.txt',
           contents: Buffer.from('hello from buffer!'),
           contentType: 'text/plain'
-        };
+        }
       case 'string':
         return {
           filename: 'string-test.txt',
           contents: 'hello string!',
           contentType: 'text/plain'
-        };
+        }
       default:
-        return undefined;
+        return undefined
     }
   }
 }
 
 describe('E2E - Download', () => {
-  let server: ReturnType<typeof setupServer>;
-  beforeAll(() => (server = setupServer(createHandler(TestHandler))));
+  let server: ReturnType<typeof setupServer>
+  beforeAll(() => (server = setupServer(createHandler(TestHandler))))
   afterAll(() => {
     if ('close' in server && typeof server.close === 'function') {
-      server.close();
+      server.close()
     }
-    fs.unlinkSync('./test-stream-2.txt');
-  });
+    fs.unlinkSync('./test-stream-2.txt')
+  })
 
   it('Should return file contents from Stream object.', () =>
     request(server)
@@ -58,7 +58,7 @@ describe('E2E - Download', () => {
           },
           text: 'hello stream!'
         })
-      ));
+      ))
 
   it('Should return file contents from Buffer object.', () =>
     request(server)
@@ -71,7 +71,7 @@ describe('E2E - Download', () => {
           },
           text: 'hello from buffer!'
         })
-      ));
+      ))
 
   it('Should return string from the server.', () =>
     request(server)
@@ -85,5 +85,5 @@ describe('E2E - Download', () => {
           },
           text: 'hello string!'
         })
-      ));
-});
+      ))
+})

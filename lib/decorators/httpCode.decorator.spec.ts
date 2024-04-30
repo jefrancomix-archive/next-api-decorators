@@ -1,5 +1,5 @@
-import 'reflect-metadata';
-import { HttpCode, HTTP_CODE_TOKEN } from './httpCode.decorator';
+import 'reflect-metadata'
+import { HttpCode, HTTP_CODE_TOKEN } from './httpCode.decorator'
 
 class Test {
   @HttpCode(201)
@@ -8,4 +8,4 @@ class Test {
 }
 
 it('Should set the HttpCode decorator.', () =>
-  expect(Reflect.getMetadata(HTTP_CODE_TOKEN, Test, 'create')).toStrictEqual(201));
+  expect(Reflect.getMetadata(HTTP_CODE_TOKEN, Test, 'create')).toStrictEqual(201))

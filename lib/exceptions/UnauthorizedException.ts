@@ -1,7 +1,7 @@
-import { HttpException } from './HttpException';
+import { HttpException } from './HttpException'
 
 export class UnauthorizedException extends HttpException {
-  public name = 'UnauthorizedException';
+  public name = 'UnauthorizedException'
 
   /**
    * Instantiates an `UnauthorizedException` Exception with status code 401.
@@ -13,6 +13,6 @@ export class UnauthorizedException extends HttpException {
    * `throw new UnauthorizedException()`
    */
   public constructor(message: string = 'Unauthorized') {
-    super(401, message);
+    super(401, message)
   }
 }

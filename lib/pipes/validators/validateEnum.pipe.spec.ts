@@ -1,4 +1,4 @@
-import { ValidateEnumPipe } from './validateEnum.pipe';
+import { ValidateEnumPipe } from './validateEnum.pipe'
 
 enum UserStatus {
   ACTIVE = 'active',
@@ -9,19 +9,19 @@ enum UserStatus {
 
 describe('ValidateEnumPipe', () => {
   it('Should pass with a correct value', () =>
-    expect(ValidateEnumPipe({ type: UserStatus })('banned', { name: 'status' })).toStrictEqual(UserStatus.BANNED));
+    expect(ValidateEnumPipe({ type: UserStatus })('banned', { name: 'status' })).toStrictEqual(UserStatus.BANNED))
 
   it('Should throw when the given value is an invalid enum value', () =>
-    expect(() => ValidateEnumPipe({ type: UserStatus })('test', { name: 'status' })).toThrow());
+    expect(() => ValidateEnumPipe({ type: UserStatus })('test', { name: 'status' })).toThrow())
 
   it('Should throw when pipe is non-nullable and the given value is undefined.', () =>
-    expect(() => ValidateEnumPipe({ type: UserStatus, nullable: false })(undefined, { name: 'status' })).toThrow());
+    expect(() => ValidateEnumPipe({ type: UserStatus, nullable: false })(undefined, { name: 'status' })).toThrow())
 
   it('Should pass when pipe is non-nullable and the given value is undefined.', () =>
     expect(ValidateEnumPipe({ type: UserStatus, nullable: true })(undefined, { name: 'status' })).toStrictEqual(
       undefined
-    ));
+    ))
 
   it('Should pass when the given value is invalid but there is no type', () =>
-    expect(ValidateEnumPipe()('unknown', { name: 'status' })).toStrictEqual('unknown'));
-});
+    expect(ValidateEnumPipe()('unknown', { name: 'status' })).toStrictEqual('unknown'))
+})

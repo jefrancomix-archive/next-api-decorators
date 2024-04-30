@@ -1,4 +1,4 @@
-export const HTTP_CODE_TOKEN = Symbol('instant:next:httpCode');
+export const HTTP_CODE_TOKEN = Symbol('instant:next:httpCode')
 
 /**
  * Defines the HTTP response code of the route.
@@ -7,6 +7,6 @@ export const HTTP_CODE_TOKEN = Symbol('instant:next:httpCode');
  */
 export function HttpCode(code: number): MethodDecorator {
   return function (target: object, propertyKey: string | symbol) {
-    Reflect.defineMetadata(HTTP_CODE_TOKEN, code, target.constructor, propertyKey);
-  };
+    Reflect.defineMetadata(HTTP_CODE_TOKEN, code, target.constructor, propertyKey)
+  }
 }

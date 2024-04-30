@@ -1,1 +1,1 @@
-export * from './DownloadFileResult';
+export * from './DownloadFileResult'

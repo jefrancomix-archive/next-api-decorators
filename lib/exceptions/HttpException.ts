@@ -1,8 +1,8 @@
 /** Defines the base HTTP exception. */
 export class HttpException extends Error {
-  public name: string = 'HttpException';
-  public statusCode: number;
-  public errors?: string[];
+  public name: string = 'HttpException'
+  public statusCode: number
+  public errors?: string[]
 
   /**
    * Instantiates an `HttpException` Exception.
@@ -15,8 +15,8 @@ export class HttpException extends Error {
    * `throw new HttpException(403, 'Forbidden')`
    */
   public constructor(statusCode: number, message?: string, errors?: string[]) {
-    super(message);
-    this.statusCode = statusCode;
-    this.errors = errors;
+    super(message)
+    this.statusCode = statusCode
+    this.errors = errors
   }
 }

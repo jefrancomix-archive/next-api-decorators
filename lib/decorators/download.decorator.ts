@@ -1,4 +1,4 @@
-export const HTTP_DOWNLOAD_TOKEN = Symbol('instant:next:download');
+export const HTTP_DOWNLOAD_TOKEN = Symbol('instant:next:download')
 
 /**
  * Marks the method as a download handler for the client, so the returned file can be downloaded by the browser.
@@ -18,6 +18,6 @@ export const HTTP_DOWNLOAD_TOKEN = Symbol('instant:next:download');
  */
 export function Download(): MethodDecorator {
   return function (target: object, propertyKey: string | symbol) {
-    Reflect.defineMetadata(HTTP_DOWNLOAD_TOKEN, true, target.constructor, propertyKey);
-  };
+    Reflect.defineMetadata(HTTP_DOWNLOAD_TOKEN, true, target.constructor, propertyKey)
+  }
 }

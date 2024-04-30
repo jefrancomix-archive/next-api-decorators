@@ -8,16 +8,16 @@
  */
 export function decodeParam(val: string): string {
   if (typeof val !== 'string' || val.length === 0) {
-    return val;
+    return val
   }
 
   try {
-    return decodeURIComponent(val);
+    return decodeURIComponent(val)
   } catch (err) {
     if (err instanceof URIError) {
-      err.message = "Failed to decode param '" + val + "'";
+      err.message = "Failed to decode param '" + val + "'"
     }
 
-    throw err;
+    throw err
   }
 }

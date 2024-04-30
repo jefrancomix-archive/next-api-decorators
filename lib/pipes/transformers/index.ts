@@ -1,1 +1,1 @@
-export * from './defaultValue.pipe';
+export * from './defaultValue.pipe'
